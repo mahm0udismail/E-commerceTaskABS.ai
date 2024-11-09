@@ -1,45 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { auth, provider, signInWithPopup } from '../firebase/firebase'; // Firebase auth setup
+import { auth, provider, signInWithPopup } from '../firebase/firebase'; 
 import { useNavigate } from 'react-router-dom';
 
 const CustomNavbar = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false); // Track sign-in state
+  const [isSignedIn, setIsSignedIn] = useState(false); 
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Handle the sign-in process
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      setUser(user); // Store user info in state
+      setUser(user);
       console.log('Signed in as:', user.displayName);
-      navigate('/'); // Redirect to home page after successful login
+      navigate('/');
       setIsSignedIn(true);
     } catch (error) {
       console.error('Error during Google sign-in:', error.message);
     }
   };
 
-  // Check if the user is already logged in
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
-        setUser(currentUser); // If already signed in, store user info
-        navigate('/'); // Redirect to home page if already signed in
+        setUser(currentUser); 
+        navigate('/'); 
       }
     });
 
-    return () => unsubscribe(); // Cleanup the subscription on component unmount
+    return () => unsubscribe(); 
   }, [navigate]);
 
-  // Handle sign out (optional, if you want to implement sign-out)
   const handleSignOut = () => {
     auth.signOut()
       .then(() => {
-        setUser(null); // Clear user state after sign-out
+        setUser(null); 
         console.log('User signed out');
-        navigate('/'); // Redirect after sign-out
+        navigate('/'); 
         setIsSignedIn(false);
 
       })

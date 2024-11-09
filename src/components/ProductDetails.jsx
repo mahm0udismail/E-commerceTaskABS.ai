@@ -41,7 +41,6 @@ const ProductDetails = () => {
           <h3>{product.Name}</h3>
           <p>{product.Description}</p>
           <p><strong>Price:</strong> ${product.Price}</p>
-          {/* Add more details if available */}
         </div>
       </div>
     </div>
